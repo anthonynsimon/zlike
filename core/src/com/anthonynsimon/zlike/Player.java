@@ -13,6 +13,7 @@ public class Player {
     private final Vector2 position;
     private final Vector2 velocity;
     private final float movementSpeed = 100f;
+    private boolean isFacingLeft = false;
 
     private final Animation<TextureRegion> idleAnimation;
     private final Animation<TextureRegion> runningAnimation;
@@ -50,13 +51,16 @@ public class Player {
             velocity.x = movementSpeed * deltaTime;
         }
 
+        if (velocity.x < 0) isFacingLeft = true;
+        else if (velocity.x > 0) isFacingLeft = false;
+
         position.add(velocity);
     }
 
     public void render(SpriteBatch batch, float stateTime) {
         Animation<TextureRegion> anim = velocity.isZero() ? idleAnimation : runningAnimation;
         TextureRegion frame = anim.getKeyFrame(stateTime, true);
-        boolean isFacingLeft = velocity.x < 0;
+
         if (isFacingLeft) {
             float width = frame.getRegionWidth();
             float height = frame.getRegionHeight();

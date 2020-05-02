@@ -37,10 +37,10 @@ public class ZLikeGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         float deltaTime = Gdx.graphics.getDeltaTime();
         stateTime += deltaTime;
-
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera projection matrix
         camera.update();
