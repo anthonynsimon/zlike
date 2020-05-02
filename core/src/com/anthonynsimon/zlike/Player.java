@@ -2,25 +2,24 @@ package com.anthonynsimon.zlike;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Player {
-    private final Vector2 position;
-    private final Vector2 velocity;
+    final Vector3 position;
+    private final Vector3 velocity;
     private final float movementSpeed = 100f;
     private boolean isFacingLeft = false;
 
     private final Animation<TextureRegion> idleAnimation;
     private final Animation<TextureRegion> runningAnimation;
 
-    public Player(Vector2 pos, TextureAtlas atlas) {
+    public Player(Vector3 pos, TextureAtlas atlas) {
         position = pos;
-        velocity = new Vector2(0f, 0f);
+        velocity = new Vector3(0f, 0f, 0f);
 
         idleAnimation = new Animation<TextureRegion>(
                 0.1f,
