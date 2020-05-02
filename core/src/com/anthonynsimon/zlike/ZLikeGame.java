@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class ZLikeGame extends ApplicationAdapter {
-    SpriteBatch batch;
+    SpriteBatch gameSpriteBatch;
+    SpriteBatch hudSpriteBatch;
 
     private TextureAtlas atlas;
     private OrthographicCamera camera;
@@ -31,46 +33,58 @@ public class ZLikeGame extends ApplicationAdapter {
         viewport = new FitViewport(GameSettings.virtualWidth, GameSettings.virtualHeight, camera);
 
         font = new BitmapFont();
-        batch = new SpriteBatch();
+        gameSpriteBatch = new SpriteBatch();
+        hudSpriteBatch = new SpriteBatch();
         atlas = new TextureAtlas(Gdx.files.internal("spritesheet.txt"));
-        player = new Player(new Vector3(16 * 10f, 16 * 10f, 0f), atlas);
+        player = new Player(new Vector2(16 * 10f, 16 * 10f), atlas);
         gameMap = new GameMap(atlas, camera);
     }
 
-    public void update() {
-        float deltaTime = Gdx.graphics.getDeltaTime();
-        stateTime += deltaTime;
-
+    public void update(float deltaTime) {
         player.update(deltaTime);
 
-        camera.position.set(camera.position.lerp(player.position, cameraFollowSpeed * deltaTime));
+        float alpha = cameraFollowSpeed * deltaTime;
+        camera.position.set(
+                MathUtils.lerp(camera.position.x, player.position.x, alpha),
+                MathUtils.lerp(camera.position.y, player.position.y, alpha),
+                0f
+        );
+
+        camera.update();
     }
 
     @Override
     public void render() {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        stateTime += deltaTime;
         float fps = Gdx.graphics.getFramesPerSecond();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
+        update(deltaTime);
+
+        // Game Sprite Batch
+        gameSpriteBatch.setProjectionMatrix(camera.combined);
 
         // Must be run outside of main sprite batch
-        gameMap.render(batch, stateTime);
+        gameMap.render(gameSpriteBatch, stateTime);
 
-        batch.begin();
-        player.render(batch, stateTime);
-        font.draw(batch, "fps: " + fps, (camera.position.x - (GameSettings.virtualWidth / 2f)) + 8, (camera.position.y + (GameSettings.virtualHeight / 2f)) - 8);
-        batch.end();
+        gameSpriteBatch.begin();
+        player.render(gameSpriteBatch, stateTime);
+        gameSpriteBatch.end();
 
-        update();
+
+        // HUD Sprite Batch
+        hudSpriteBatch.begin();
+        font.draw(hudSpriteBatch, "fps: " + fps, 16, 16);
+        hudSpriteBatch.end();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        batch.setProjectionMatrix(camera.combined);
+        gameSpriteBatch.setProjectionMatrix(camera.combined);
     }
 
     @Override
@@ -78,6 +92,7 @@ public class ZLikeGame extends ApplicationAdapter {
         font.dispose();
         gameMap.dispose();
         atlas.dispose();
-        batch.dispose();
+        gameSpriteBatch.dispose();
+        hudSpriteBatch.dispose();
     }
 }
