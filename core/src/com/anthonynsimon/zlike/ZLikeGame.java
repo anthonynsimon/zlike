@@ -12,6 +12,7 @@ public class ZLikeGame extends ApplicationAdapter {
 
     private Player player;
     private OrthographicCamera camera;
+    private float stateTime = 0f;
 
     @Override
     public void create() {
@@ -29,16 +30,19 @@ public class ZLikeGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        stateTime += deltaTime;
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         // Update camera projection matrix
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        player.render(batch);
+        player.render(batch, stateTime);
         batch.end();
 
-        float deltaTime = Gdx.graphics.getDeltaTime();
         update(deltaTime);
     }
 
