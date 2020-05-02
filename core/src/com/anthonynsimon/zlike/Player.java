@@ -21,13 +21,13 @@ public class Player {
         position = pos;
         velocity = new Vector2(0f, 0f);
 
-        idleAnimation = new Animation<TextureRegion>(
+        idleAnimation = new Animation<>(
                 0.1f,
                 atlas.findRegions("elf_m_idle_anim"),
                 Animation.PlayMode.LOOP
         );
 
-        runningAnimation = new Animation<TextureRegion>(
+        runningAnimation = new Animation<>(
                 0.1f,
                 atlas.findRegions("elf_m_run_anim"),
                 Animation.PlayMode.LOOP
