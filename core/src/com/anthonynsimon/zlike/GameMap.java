@@ -18,6 +18,7 @@ import java.util.stream.IntStream;
 public class GameMap {
 
     private Array<TextureAtlas.AtlasRegion> floors;
+    private TextureAtlas.AtlasRegion chest;
 
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
@@ -27,6 +28,7 @@ public class GameMap {
 
     public GameMap(TextureAtlas atlas, OrthographicCamera cam) {
         floors = atlas.findRegions("floor");
+        chest = atlas.findRegion("chest_full_open_anim");
 
         tiledMap = new TiledMap();
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
@@ -41,7 +43,10 @@ public class GameMap {
         MapLayers layers = tiledMap.getLayers();
         TiledMapTileLayer layer1 = new TiledMapTileLayer(100, 100, Globals.tileSize, Globals.tileSize);
 
-        ArrayList<TiledMapTileLayer.Cell> cells = IntStream.range(0, floors.size)
+
+        TiledMapTileLayer layer2 = new TiledMapTileLayer(100, 100, Globals.tileSize, Globals.tileSize);
+
+        ArrayList<TiledMapTileLayer.Cell> floorCells = IntStream.range(0, floors.size)
                 .mapToObj(i -> {
                     TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                     cell.setTile(new StaticTiledMapTile(floors.get(i)));
@@ -49,14 +54,36 @@ public class GameMap {
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        TiledMapTileLayer.Cell chestCell = new TiledMapTileLayer.Cell();
+        chestCell.setTile(new StaticTiledMapTile(chest));
+
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 100; j++) {
-                int choice = rand.nextInt(floors.size);
-                layer1.setCell(i, j, cells.get(choice));
+                int choice = rand.nextInt(1000);
+
+                if (choice >= 975) {
+                    layer1.setCell(i, j, floorCells.get(6));
+                } else if (choice >= 950) {
+                    layer1.setCell(i, j, floorCells.get(5));
+                } else if (choice >= 900) {
+                    layer1.setCell(i, j, floorCells.get(3));
+                } else if (choice >= 550) {
+                    layer1.setCell(i, j, floorCells.get(1));
+                } else if (choice >= 250) {
+                    layer1.setCell(i, j, floorCells.get(2));
+                } else {
+                    layer1.setCell(i, j, floorCells.get(4));
+                }
+
+                if (choice == 0) {
+                    layer2.setCell(i, j, chestCell);
+                }
             }
         }
 
+
         layers.add(layer1);
+        layers.add(layer2);
     }
 
     public void render(SpriteBatch batch, float stateTime) {
