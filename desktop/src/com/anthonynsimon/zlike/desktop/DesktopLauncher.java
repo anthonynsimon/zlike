@@ -1,19 +1,22 @@
 package com.anthonynsimon.zlike.desktop;
 
-import com.anthonynsimon.zlike.GameSettings;
+import com.anthonynsimon.zlike.Globals;
+import com.anthonynsimon.zlike.ZLikeGame;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.anthonynsimon.zlike.ZLikeGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.width = GameSettings.desktopWidth;
-		config.height = GameSettings.desktopHeight;
-		config.resizable = GameSettings.resizable;
-		config.title = GameSettings.title;
-		config.foregroundFPS = GameSettings.targetFps;
+		config.width = Globals.targetWidth * 2;
+		config.height = Globals.targetHeight * 2;
+		config.resizable = true;
+		config.title = "zlike";
+		config.foregroundFPS = 60;
+		config.vSyncEnabled = true;
+		config.samples = 0;
+		config.fullscreen = false;
 
 		new LwjglApplication(new ZLikeGame(), config);
 	}

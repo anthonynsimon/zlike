@@ -24,13 +24,12 @@ public class ZLikeGame extends ApplicationAdapter {
     private BitmapFont font;
 
     private float stateTime = 0f;
-    private float cameraFollowSpeed = 3f;
+    private float cameraFollowSpeed = 2.4f;
 
     @Override
     public void create() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, GameSettings.virtualWidth, GameSettings.virtualHeight);
-        viewport = new FitViewport(GameSettings.virtualWidth, GameSettings.virtualHeight, camera);
+        viewport = new FitViewport(Globals.targetWidth, Globals.targetHeight, camera);
 
         font = new BitmapFont();
         gameSpriteBatch = new SpriteBatch();
@@ -38,6 +37,9 @@ public class ZLikeGame extends ApplicationAdapter {
         atlas = new TextureAtlas(Gdx.files.internal("spritesheet.txt"));
         player = new Player(new Vector2(16 * 10f, 16 * 10f), atlas);
         gameMap = new GameMap(atlas, camera);
+
+        camera.position.set(player.position.x, player.position.y, 0);
+        camera.update();
     }
 
     public void update(float deltaTime) {
@@ -47,9 +49,8 @@ public class ZLikeGame extends ApplicationAdapter {
         camera.position.set(
                 MathUtils.lerp(camera.position.x, player.position.x, alpha),
                 MathUtils.lerp(camera.position.y, player.position.y, alpha),
-                0f
+                0
         );
-
         camera.update();
     }
 
@@ -59,32 +60,31 @@ public class ZLikeGame extends ApplicationAdapter {
         stateTime += deltaTime;
         float fps = Gdx.graphics.getFramesPerSecond();
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         update(deltaTime);
 
-        // Game Sprite Batch
         gameSpriteBatch.setProjectionMatrix(camera.combined);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glTexParameterf(GL20.GL_TEXTURE_2D, GL20.GL_TEXTURE_MAX_ANISOTROPY_EXT, 32);
+
 
         // Must be run outside of main sprite batch
         gameMap.render(gameSpriteBatch, stateTime);
 
+        // Game Sprite Batch
         gameSpriteBatch.begin();
         player.render(gameSpriteBatch, stateTime);
         gameSpriteBatch.end();
 
-
         // HUD Sprite Batch
         hudSpriteBatch.begin();
         font.draw(hudSpriteBatch, "fps: " + fps, 16, 16);
+        font.draw(hudSpriteBatch, "width: " + Gdx.graphics.getWidth() + " height: " + Gdx.graphics.getHeight(), 16, 32);
         hudSpriteBatch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
-        gameSpriteBatch.setProjectionMatrix(camera.combined);
+        viewport.update(width, height);
     }
 
     @Override
