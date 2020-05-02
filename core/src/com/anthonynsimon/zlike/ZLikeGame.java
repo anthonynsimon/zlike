@@ -2,14 +2,21 @@ package com.anthonynsimon.zlike;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
+import java.io.FileReader;
+import java.io.StringReader;
 
 public class ZLikeGame extends ApplicationAdapter {
     SpriteBatch batch;
 
+    private TextureAtlas atlas;
     private Player player;
     private OrthographicCamera camera;
     private float stateTime = 0f;
@@ -20,8 +27,8 @@ public class ZLikeGame extends ApplicationAdapter {
         camera.setToOrtho(false, GameSettings.virtualWidth, GameSettings.virtualHeight);
 
         batch = new SpriteBatch();
-
-        player = new Player(new Vector2(0, 0));
+        atlas = new TextureAtlas(Gdx.files.internal("spritesheet.txt"));
+        player = new Player(new Vector2(0f, 0f), atlas);
     }
 
     public void update(float deltaTime) {
@@ -51,14 +58,13 @@ public class ZLikeGame extends ApplicationAdapter {
         // Resize camera viewport to keep aspect ratio and "zoom level"
         super.resize(width, height);
         camera.viewportWidth = GameSettings.virtualWidth;
-        camera.viewportHeight = GameSettings.virtualWidth * ((float)height / (float)width);
+        camera.viewportHeight = GameSettings.virtualWidth * ((float) height / (float) width);
         camera.update();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
-        player.dispose();
-
+        atlas.dispose();
     }
 }

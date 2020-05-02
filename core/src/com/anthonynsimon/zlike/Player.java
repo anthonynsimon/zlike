@@ -5,69 +5,64 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player {
     private final Vector2 position;
+    private final Vector2 velocity;
+    private final float movementSpeed = 100f;
 
-    private final Texture[] idleTextures;
-    private final Animation<Texture> idleAnimation;
+    private final Animation<TextureRegion> idleAnimation;
+    private final Animation<TextureRegion> runningAnimation;
 
-    private final Texture[] runningTextures;
-    private final Animation<Texture> runningAnimation;
-
-    private final float speed = 100f;
-    private boolean isMoving = false;
-
-    public Player(Vector2 pos) {
+    public Player(Vector2 pos, TextureAtlas atlas) {
         position = pos;
+        velocity = new Vector2(0f, 0f);
 
-        idleTextures = new Texture[4];
-        for (int i = 0; i < idleTextures.length; i++) {
-            idleTextures[i] = new Texture(String.format("elf_m_idle_anim_f%d.png", i));
-        }
-        idleAnimation = new Animation<>(0.1f, idleTextures);
+        idleAnimation = new Animation<TextureRegion>(
+                0.1f,
+                atlas.findRegions("elf_m_idle_anim"),
+                Animation.PlayMode.LOOP
+        );
 
-        runningTextures = new Texture[4];
-        for (int i = 0; i < runningTextures.length; i++) {
-            runningTextures[i] = new Texture(String.format("elf_m_run_anim_f%d.png", i));
-        }
-        runningAnimation = new Animation<>(0.1f, runningTextures);
+        runningAnimation = new Animation<TextureRegion>(
+                0.1f,
+                atlas.findRegions("elf_m_run_anim"),
+                Animation.PlayMode.LOOP
+        );
     }
 
     public void update(float deltaTime) {
-        isMoving = false;
+        velocity.setZero();
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            position.y -= speed * deltaTime;
-            isMoving = true;
+            velocity.y = -movementSpeed * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            position.y += speed * deltaTime;
-            isMoving = true;
+            velocity.y = movementSpeed * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            position.x -= speed * deltaTime;
-            isMoving = true;
+            velocity.x = -movementSpeed * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            position.x += speed * deltaTime;
-            isMoving = true;
+            velocity.x = movementSpeed * deltaTime;
         }
+
+        position.add(velocity);
     }
 
     public void render(SpriteBatch batch, float stateTime) {
-        Texture frame = isMoving ? runningAnimation.getKeyFrame(stateTime, true) : idleAnimation.getKeyFrame(stateTime, true);
-        batch.draw(frame, position.x, position.y);
-    }
-
-    public void dispose() {
-        for (Texture tex : idleTextures) {
-            tex.dispose();
-        }
-
-        for (Texture var : runningTextures) {
-            var.dispose();
+        Animation<TextureRegion> anim = velocity.isZero() ? idleAnimation : runningAnimation;
+        TextureRegion frame = anim.getKeyFrame(stateTime, true);
+        boolean isFacingLeft = velocity.x < 0;
+        if (isFacingLeft) {
+            float width = frame.getRegionWidth();
+            float height = frame.getRegionHeight();
+            batch.draw(frame, position.x + width, position.y, -width, height);
+        } else {
+            batch.draw(frame, position.x, position.y, frame.getRegionWidth(), frame.getRegionHeight());
         }
     }
 }
