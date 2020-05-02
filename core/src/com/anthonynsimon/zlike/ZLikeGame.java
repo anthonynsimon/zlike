@@ -22,7 +22,7 @@ public class ZLikeGame extends ApplicationAdapter {
     private BitmapFont font;
 
     private float stateTime = 0f;
-    private float cameraFollowSpeed = 2.0f;
+    private float cameraFollowSpeed = 3f;
 
     @Override
     public void create() {
