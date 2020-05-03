@@ -31,7 +31,7 @@ public class GameMap {
         chest = atlas.findRegion("chest_full_open_anim");
 
         tiledMap = new TiledMap();
-        renderer = new OrthogonalTiledMapRenderer(tiledMap);
+        renderer = new OrthogonalTiledMapRenderer(tiledMap, 1);
         camera = cam;
 
         rand = new Random();

@@ -9,8 +9,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.width = Globals.targetWidth * 2;
-		config.height = Globals.targetHeight * 2;
+		config.width = Globals.targetWidth * 3;
+		config.height = Globals.targetHeight * 3;
 		config.resizable = true;
 		config.title = "zlike";
 		config.foregroundFPS = 60;
