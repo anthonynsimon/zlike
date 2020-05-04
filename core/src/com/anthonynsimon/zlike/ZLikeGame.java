@@ -34,7 +34,7 @@ public class ZLikeGame extends ApplicationAdapter {
         font = new BitmapFont();
         gameSpriteBatch = new SpriteBatch();
         hudSpriteBatch = new SpriteBatch();
-        atlas = new TextureAtlas(Gdx.files.internal("spritesheet.txt"));
+        atlas = new TextureAtlas(Gdx.files.internal("sprites/spritesheet.txt"));
         player = new Player(new Vector2(16 * 10f, 16 * 10f), atlas);
         gameMap = new GameMap(atlas, camera);
 
