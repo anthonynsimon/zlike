@@ -1,7 +1,7 @@
 package com.anthonynsimon.zlike.desktop;
 
 import com.anthonynsimon.zlike.Globals;
-import com.anthonynsimon.zlike.ZLikeGame;
+import com.anthonynsimon.zlike.GameMain;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -18,6 +18,6 @@ public class DesktopLauncher {
 		config.samples = 0;
 		config.fullscreen = false;
 
-		new LwjglApplication(new ZLikeGame(), config);
+		new LwjglApplication(new GameMain(), config);
 	}
 }
