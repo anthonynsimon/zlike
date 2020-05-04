@@ -2,10 +2,7 @@ package com.anthonynsimon.zlike;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player {
@@ -56,7 +53,7 @@ public class Player {
         position.add(velocity);
     }
 
-    public void render(SpriteBatch batch, float stateTime) {
+    public void render(Batch batch, float stateTime) {
         Animation<TextureRegion> anim = velocity.isZero() ? idleAnimation : runningAnimation;
         TextureRegion frame = anim.getKeyFrame(stateTime, true);
 
