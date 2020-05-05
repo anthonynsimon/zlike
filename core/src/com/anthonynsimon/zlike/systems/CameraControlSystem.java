@@ -8,7 +8,7 @@ public class CameraControlSystem implements System {
     private Engine engine;
     private RenderingSystem renderingSystem;
     private int targetEntityId;
-    private float cameraFollowSpeed = 2.4f;
+    private float cameraFollowSpeed = 2.8f;
 
     public CameraControlSystem(Engine engine, RenderingSystem renderingSystem, int targetEntityId) {
         this.engine = engine;

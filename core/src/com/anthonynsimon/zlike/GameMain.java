@@ -26,13 +26,13 @@ public class GameMain extends Game {
 
         // Create systems
         renderingSystem = new RenderingSystem(engine);
+        engine.systems.add(new World(renderingSystem.camera));
         engine.systems.add(renderingSystem);
         engine.systems.add(new MovementSystem(engine));
         engine.systems.add(new PlayerControlSystem(engine, playerId));
         engine.systems.add(new AnimationSystem(engine));
         engine.systems.add(new CameraControlSystem(engine, renderingSystem, playerId));
         engine.systems.add(new DebugSystem(engine));
-        engine.systems.add(new World(renderingSystem.camera));
     }
 
     @Override

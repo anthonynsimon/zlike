@@ -17,6 +17,7 @@ public class Entities {
 
         TextureComponent tex = new TextureComponent();
         tex.texture = atlas.findRegion("elf_m_idle_anim");
+        tex.zindex = 100;
         engine.addComponent(playerId, tex);
 
         AnimationComponent anim = new AnimationComponent();
