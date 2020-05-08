@@ -1,29 +1,28 @@
-package com.anthonynsimon.zlike;
+package com.anthonynsimon.zlike.core;
 
-import com.anthonynsimon.zlike.systems.System;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-// TODO: how does this fit into ECS properly?
-public class World implements System {
+// TODO: refactor into plain GameObject's
+public class GameMap {
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap map;
     private OrthographicCamera camera;
 
-    public World(OrthographicCamera camera) {
-        this.map = new TmxMapLoader().load("tilemap.tmx");
+    public GameMap(OrthographicCamera camera, String mapName) {
+        this.map = new TmxMapLoader().load(mapName);
         this.renderer = new OrthogonalTiledMapRenderer(map, 1);
         this.camera = camera;
     }
 
-    public void update(float deltaTime) {
+    public void render() {
         renderer.setView(camera);
         renderer.render();
     }
 
-    public void dispose() {
+    public void destroy() {
         map.dispose();
     }
 }

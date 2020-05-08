@@ -1,32 +1,47 @@
 package com.anthonynsimon.zlike.systems;
 
-import com.anthonynsimon.zlike.Engine;
+import com.anthonynsimon.zlike.components.core.TransformComponent;
+import com.anthonynsimon.zlike.core.GameObject;
+import com.anthonynsimon.zlike.core.Scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class DebugSystem implements System {
-    private Engine engine;
-    private Batch batch;
-    private BitmapFont font;
+import java.util.Optional;
 
-    public DebugSystem(Engine engine) {
-        this.engine = engine;
-        this.batch = new SpriteBatch();
+public class DebugSystem {
+    private BitmapFont font;
+    private Batch batch;
+    private Scene scene;
+
+    public DebugSystem(Scene scene) {
         this.font = new BitmapFont();
+        this.batch = new SpriteBatch();
+        this.setScene(scene);
     }
 
-    @Override
-    public void update(float deltaTime) {
+    public void render() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("width: %d height: %d\nfps: %d\n", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.getFramesPerSecond()));
+
+        Optional<GameObject> player = scene.findGameObjectsByTag("player").stream().findFirst();
+        if (player.isPresent()) {
+            TransformComponent transform = (TransformComponent) player.get().getComponent("transform");
+            sb.append(String.format("position:\n  x=%f\n  y=%f\n  z=%f\n", transform.position.x, transform.position.y, transform.position.z));
+        }
+
         batch.begin();
-        font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 16, 16);
-        font.draw(batch, "width: " + Gdx.graphics.getWidth() + " height: " + Gdx.graphics.getHeight(), 16, 32);
+        font.draw(batch, sb.toString(), 16, 128);
         batch.end();
     }
 
-    @Override
-    public void dispose() {
-        font.dispose();
+    public void destroy() {
+        this.batch.dispose();
+        this.font.dispose();
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }
