@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.Optional;
-
 public class DebugSystem {
     private BitmapFont font;
     private Batch batch;
@@ -25,11 +23,9 @@ public class DebugSystem {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("width: %d height: %d\nfps: %d\n", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.getFramesPerSecond()));
 
-        Optional<GameObject> player = scene.findGameObjectsByTag("player").stream().findFirst();
-        if (player.isPresent()) {
-            TransformComponent transform = (TransformComponent) player.get().getComponent("transform");
-            sb.append(String.format("position:\n  x=%f\n  y=%f\n  z=%f\n", transform.position.x, transform.position.y, transform.position.z));
-        }
+        GameObject player = scene.firstByTag("player");
+        TransformComponent transform = player.transform;
+        sb.append(String.format("position:\n  x=%f\n  y=%f\n  z=%f\n", transform.position.x, transform.position.y, transform.position.z));
 
         batch.begin();
         font.draw(batch, sb.toString(), 16, 128);

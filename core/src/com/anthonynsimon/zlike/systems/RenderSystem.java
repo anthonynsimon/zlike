@@ -1,10 +1,10 @@
 package com.anthonynsimon.zlike.systems;
 
 import com.anthonynsimon.zlike.GameConf;
-import com.anthonynsimon.zlike.core.Scene;
-import com.anthonynsimon.zlike.core.GameObject;
 import com.anthonynsimon.zlike.components.TextureComponent;
 import com.anthonynsimon.zlike.components.TransformComponent;
+import com.anthonynsimon.zlike.core.GameObject;
+import com.anthonynsimon.zlike.core.Scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -47,7 +47,7 @@ public class RenderSystem {
         batch.begin();
         for (GameObject gameObject : scene.gameObjects) {
             TextureComponent textureComponent = (TextureComponent) gameObject.getComponent("texture");
-            TransformComponent transform = (TransformComponent) gameObject.getComponent("transform");
+            TransformComponent transform = gameObject.transform;
 
             if (textureComponent != null && transform != null && transform.visible) {
                 draw(textureComponent, transform);

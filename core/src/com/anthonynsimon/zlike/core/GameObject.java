@@ -10,14 +10,17 @@ import java.util.Set;
 
 public class GameObject {
     public final Set<String> tags;
+    public final TransformComponent transform;
     protected final Map<String, Component> components;
 
     public GameObject() {
         this.tags = new HashSet<>();
         this.components = new HashMap<>();
-        this.addComponent("transform", new TransformComponent());
+        // Cache transform component as all game objects must have one and it's frequently accessed
+        this.transform = new TransformComponent();
+        this.addComponent("transform", transform);
     }
-
+    
     public void awake() {
         for (Component component : components.values()) {
             component.awake();

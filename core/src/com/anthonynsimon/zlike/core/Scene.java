@@ -2,6 +2,7 @@ package com.anthonynsimon.zlike.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Scene {
@@ -38,5 +39,22 @@ public class Scene {
         return gameObjects.stream()
                 .filter(g -> g.tags.contains(tag))
                 .collect(Collectors.toList());
+    }
+
+    public void iterateByTag(String tag, Consumer<GameObject> action) {
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject.tags.contains(tag)) {
+                action.accept(gameObject);
+            }
+        }
+    }
+
+    public GameObject firstByTag(String tag) {
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject.tags.contains(tag)) {
+                return gameObject;
+            }
+        }
+        return null;
     }
 }

@@ -13,7 +13,7 @@ public class Camera extends GameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        TransformComponent transform = (TransformComponent) getComponent("transform");
+        // Match the GameObject's transform and the underlyingCamera one
         underlyingCamera.position.set(transform.position);
         underlyingCamera.rotate(transform.rotation);
     }

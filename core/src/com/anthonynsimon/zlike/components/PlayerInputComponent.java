@@ -9,12 +9,15 @@ public class PlayerInputComponent extends Component {
 
     public PlayerInputComponent(float movementSpeed) {
         this.movementSpeed = movementSpeed;
+    }
 
+    public void setMovementSpeed(float movementSpeed) {
+        this.movementSpeed = movementSpeed;
     }
 
     @Override
     public void update(float deltaTime) {
-        TransformComponent transform = (TransformComponent) gameObject.getComponent("transform");
+        TransformComponent transform = gameObject.transform;
         AnimationComponent animation = (AnimationComponent) gameObject.getComponent("animation");
 
         if (transform != null) {

@@ -1,10 +1,6 @@
 package com.anthonynsimon.zlike;
 
-import com.anthonynsimon.zlike.components.CameraFollowComponent;
-import com.anthonynsimon.zlike.components.PlayerInputComponent;
-import com.anthonynsimon.zlike.components.AnimationComponent;
-import com.anthonynsimon.zlike.components.TextureComponent;
-import com.anthonynsimon.zlike.components.TransformComponent;
+import com.anthonynsimon.zlike.components.*;
 import com.anthonynsimon.zlike.core.GameObject;
 import com.anthonynsimon.zlike.core.Scene;
 import com.anthonynsimon.zlike.systems.DebugSystem;
@@ -78,7 +74,7 @@ public class GameMain extends Game {
         currentScene = new Scene("tilemap.tmx");
 
         GameObject player = new GameObject();
-        TransformComponent playerTransform = (TransformComponent)player.getComponent("transform");
+        TransformComponent playerTransform = player.transform;
         playerTransform.position.set(new Vector3(64, 64, 0));
         player.addComponent("playerInput", new PlayerInputComponent(100));
         player.addComponent("texture", new TextureComponent(null)); // idle anim is set right after this
