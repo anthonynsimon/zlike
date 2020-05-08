@@ -1,9 +1,6 @@
 package com.anthonynsimon.zlike;
 
-import com.anthonynsimon.zlike.components.AnimationComponent;
-import com.anthonynsimon.zlike.components.CameraFollowComponent;
-import com.anthonynsimon.zlike.components.PlayerInputComponent;
-import com.anthonynsimon.zlike.components.TextureComponent;
+import com.anthonynsimon.zlike.components.*;
 import com.anthonynsimon.zlike.core.GameObject;
 import com.anthonynsimon.zlike.core.Scene;
 import com.anthonynsimon.zlike.systems.DebugSystem;
@@ -76,9 +73,32 @@ public class GameMain extends Game {
     private void setupScene() {
         currentScene = new Scene("tilemap.tmx");
 
+        for (int i = 0; i < 1e3; i++) {
+            GameObject npc = new GameObject();
+            npc.transform.position.set(new Vector3((float)(Math.random() * 1024), (float)(Math.random() * 1024), 0));
+            npc.addComponent("movement", new MovementComponent());
+            npc.addComponent("texture", new TextureComponent(null)); // idle anim is set right after this
+            npc.addComponent("animation", new AnimationComponent("idle", new HashMap<String, Animation<TextureRegion>>() {{
+                put("idle", new Animation<>(
+                        0.1f,
+                        atlas.findRegions("elf_m_idle_anim"),
+                        Animation.PlayMode.LOOP
+                ));
+                put("running", new Animation<>(
+                        0.1f,
+                        atlas.findRegions("elf_m_run_anim"),
+                        Animation.PlayMode.LOOP
+                ));
+            }}));
+            npc.addComponent("randomWalk", new RandomWalkComponent(100f));
+            npc.tags.add("player" + i);
+            currentScene.gameObjects.add(npc);
+        }
+
         GameObject player = new GameObject();
         player.transform.position.set(new Vector3(64, 64, 0));
         player.addComponent("playerInput", new PlayerInputComponent(100));
+        player.addComponent("movement", new MovementComponent());
         player.addComponent("texture", new TextureComponent(null)); // idle anim is set right after this
         player.addComponent("animation", new AnimationComponent("idle", new HashMap<String, Animation<TextureRegion>>() {{
             put("idle", new Animation<>(
