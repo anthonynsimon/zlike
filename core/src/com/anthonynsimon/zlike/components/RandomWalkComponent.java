@@ -32,6 +32,6 @@ public class RandomWalkComponent extends Component {
     }
 
     public Vector3 newTarget() {
-        return new Vector3((float) Math.random() * 512, (float) Math.random() * 512, 0f);
+        return new Vector3((float) (Math.random() * 50 * 16) - (25f * 16f), (float) (Math.random() * 50 * 16) - (25f * 16f), 0f);
     }
 }

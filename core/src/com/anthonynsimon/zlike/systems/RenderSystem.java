@@ -42,7 +42,7 @@ public class RenderSystem {
         activeCamera.update();
         batch.setProjectionMatrix(activeCamera.combined);
 
-        scene.gameMap.render();
+//        scene.gameMap.render();
 
         batch.begin();
         for (GameObject gameObject : scene.gameObjects) {
