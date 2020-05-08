@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import jdk.nashorn.internal.objects.Global;
 
 import java.util.HashMap;
 
@@ -73,7 +74,7 @@ public class GameMain extends Game {
     private void setupScene() {
         currentScene = new Scene("tilemap.tmx");
 
-        for (int i = 0; i < 1e3; i++) {
+        for (int i = 0; i < GameConf.testNPCs; i++) {
             GameObject npc = new GameObject();
             npc.transform.position.set(new Vector3((float)(Math.random() * 1024), (float)(Math.random() * 1024), 0));
             npc.addComponent("movement", new MovementComponent());
