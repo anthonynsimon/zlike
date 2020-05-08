@@ -14,11 +14,11 @@ public class DemoScene {
     public static Scene create(TextureAtlas atlas) {
         Scene scene = new Scene("tilemap.tmx");
 
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
+        for (int i = 0; i < GameConf.MAP_WIDTH; i++) {
+            for (int j = 0; j < GameConf.MAP_HEIGHT; j++) {
                 GameObject floor = new GameObject();
-                float x = (i - 25) * 16;
-                float y = (j - 25) * 16;
+                float x = (i - GameConf.MAP_WIDTH / 2f) * GameConf.PIXELS_PER_UNIT;
+                float y = (j - GameConf.MAP_HEIGHT / 2f) * GameConf.PIXELS_PER_UNIT;
                 floor.transform.position.set(x, y, 0);
                 int choice = (int) ((float) Math.random() * 3) + 1;
                 floor.addComponent("texture", new TextureComponent(atlas.findRegion("floor", choice)));
@@ -26,9 +26,11 @@ public class DemoScene {
             }
         }
 
-        for (int i = 0; i < GameConf.testNPCs; i++) {
+        for (int i = 0; i < GameConf.DEMO_NPCS; i++) {
             GameObject npc = new GameObject();
-            npc.transform.position.set(new Vector3((float) (Math.random() * 50f * 16) - (25f * 16f), (float) (Math.random() * 50f * 16f) - (25f * 16f), 0));
+            float x = (float) (Math.random() * GameConf.MAP_WIDTH * GameConf.PIXELS_PER_UNIT) - (GameConf.MAP_WIDTH / 2f * GameConf.PIXELS_PER_UNIT);
+            float y = (float) (Math.random() * GameConf.MAP_HEIGHT * GameConf.PIXELS_PER_UNIT) - (GameConf.MAP_HEIGHT / 2f * GameConf.PIXELS_PER_UNIT);
+            npc.transform.position.set(new Vector3(x, y, 0f));
             npc.addComponent("movement", new MovementComponent());
             npc.addComponent("texture", new TextureComponent(null)); // idle anim is set right after this
             npc.addComponent("animation", new AnimationComponent("idle", new HashMap<String, Animation<TextureRegion>>() {{

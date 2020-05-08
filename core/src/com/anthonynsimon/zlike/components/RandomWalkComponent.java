@@ -1,5 +1,7 @@
 package com.anthonynsimon.zlike.components;
 
+import com.anthonynsimon.zlike.GameConf;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector3;
 
 public class RandomWalkComponent extends Component {
@@ -32,6 +34,8 @@ public class RandomWalkComponent extends Component {
     }
 
     public Vector3 newTarget() {
-        return new Vector3((float) (Math.random() * 50 * 16) - (25f * 16f), (float) (Math.random() * 50 * 16) - (25f * 16f), 0f);
+        float x = (float) (Math.random() * GameConf.MAP_WIDTH * GameConf.PIXELS_PER_UNIT) - (GameConf.MAP_WIDTH / 2f * GameConf.PIXELS_PER_UNIT);
+        float y = (float) (Math.random() * GameConf.MAP_HEIGHT * GameConf.PIXELS_PER_UNIT) - (GameConf.MAP_HEIGHT / 2f * GameConf.PIXELS_PER_UNIT);
+        return new Vector3(x, y , 0f);
     }
 }
