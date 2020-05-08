@@ -1,4 +1,4 @@
-package com.anthonynsimon.zlike.components.core;
+package com.anthonynsimon.zlike.components;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 

@@ -1,8 +1,6 @@
 package com.anthonynsimon.zlike.components;
 
 import com.anthonynsimon.zlike.core.GameObject;
-import com.anthonynsimon.zlike.components.core.Component;
-import com.anthonynsimon.zlike.components.core.TransformComponent;
 
 public class CameraFollowComponent extends Component {
     private GameObject target;

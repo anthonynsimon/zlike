@@ -1,8 +1,5 @@
 package com.anthonynsimon.zlike.components;
 
-import com.anthonynsimon.zlike.components.core.AnimationComponent;
-import com.anthonynsimon.zlike.components.core.Component;
-import com.anthonynsimon.zlike.components.core.TransformComponent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;

@@ -1,6 +1,6 @@
 package com.anthonynsimon.zlike.core;
 
-import com.anthonynsimon.zlike.components.core.TransformComponent;
+import com.anthonynsimon.zlike.components.TransformComponent;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Camera extends GameObject {

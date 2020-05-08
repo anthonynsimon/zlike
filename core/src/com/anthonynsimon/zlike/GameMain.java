@@ -2,9 +2,9 @@ package com.anthonynsimon.zlike;
 
 import com.anthonynsimon.zlike.components.CameraFollowComponent;
 import com.anthonynsimon.zlike.components.PlayerInputComponent;
-import com.anthonynsimon.zlike.components.core.AnimationComponent;
-import com.anthonynsimon.zlike.components.core.TextureComponent;
-import com.anthonynsimon.zlike.components.core.TransformComponent;
+import com.anthonynsimon.zlike.components.AnimationComponent;
+import com.anthonynsimon.zlike.components.TextureComponent;
+import com.anthonynsimon.zlike.components.TransformComponent;
 import com.anthonynsimon.zlike.core.GameObject;
 import com.anthonynsimon.zlike.core.Scene;
 import com.anthonynsimon.zlike.systems.DebugSystem;

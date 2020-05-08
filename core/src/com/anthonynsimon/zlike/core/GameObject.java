@@ -1,7 +1,7 @@
 package com.anthonynsimon.zlike.core;
 
-import com.anthonynsimon.zlike.components.core.Component;
-import com.anthonynsimon.zlike.components.core.TransformComponent;
+import com.anthonynsimon.zlike.components.Component;
+import com.anthonynsimon.zlike.components.TransformComponent;
 
 import java.util.HashMap;
 import java.util.HashSet;

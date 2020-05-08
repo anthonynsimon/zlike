@@ -1,6 +1,6 @@
 package com.anthonynsimon.zlike.systems;
 
-import com.anthonynsimon.zlike.components.core.TransformComponent;
+import com.anthonynsimon.zlike.components.TransformComponent;
 import com.anthonynsimon.zlike.core.GameObject;
 import com.anthonynsimon.zlike.core.Scene;
 import com.badlogic.gdx.Gdx;
